@@ -66,12 +66,12 @@ To get started, follow these steps:
    curl http://localhost:5000/extract
    ```
 
-   - Once data is loaded, run dbt to process data
+   - Once data is loaded, run dbt to process data (**Note**: if your current directory is different from **sf_fire_incidents**, you might need to change the network with your current directory name)
    ```bash
    docker run --network sf_fire_incidents_network-challenge --env-file ./.env dbt-challenge run
    ```
-
-   - Optionally, you can also run dbt test to check data consistency
+*
+   - Optionally, you can also run dbt test to check data consistency (**Note**: if your current directory is different from **sf_fire_incidents**, you might need to change the network with your current directory name)
    ```bash
    docker run --network sf_fire_incidents_network-challenge --env-file ./.env dbt-challenge test
    ```
