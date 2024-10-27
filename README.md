@@ -87,6 +87,7 @@ For this project we assume the following:
    - Dataset is fully refreshed each day, with the same value for all records on the **data_loaded_at** field
    - Primary key of the dataset is the conjunction of incident number and expose number
    - Components are loaded with docker for ease of use and to provide intercompatibility between different OS and systems
+   - Data came with a city column which had more than just San Francisco city, as there were same zip codes with different cities, a dim_cities was added with information of the city to don't crop records based on city field.
 
 Additionally, the data is stored and processed in a medallion architecture, where each layer in the database will contain:
 - Bronze (**data_bronze**)
