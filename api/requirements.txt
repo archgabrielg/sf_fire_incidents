@@ -1,0 +1,5 @@
+Flask==2.3.3
+sodapy==2.2.0
+pandas==2.2.3
+sqlalchemy==2.0.36
+psycopg2==2.9.10

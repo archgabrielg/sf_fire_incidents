@@ -1,0 +1,14 @@
+challenge:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgresdb
+      user: "{{ env_var('USER') }}"
+      password: "{{ env_var('PASSWORD') }}"
+      port: 5432
+      dbname: "{{ env_var('DATABASE') }}"
+      schema: data
+
+
+

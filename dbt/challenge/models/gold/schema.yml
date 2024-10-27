@@ -1,0 +1,167 @@
+version: 1
+
+models:
+  - name: dim_time
+    description: "Dimension table with time data"
+    columns:
+      - name: date_pk
+        description: "Unique hash key of each date"
+        tests:
+          - not_null
+          - unique
+      - name: date
+        description: "Date"
+      - name: year
+        description: "Year number"
+      - name: month
+        description: "Date Month number"
+      - name: month_name
+        description: "Month name"
+      - name: day
+        description: "Date Day number"
+      - name: day_of_year
+        description: "Day of year number"
+      - name: weekday_name
+        description: "Weekday name"
+      - name: calendar_week
+        description: "something"
+      - name: year_month
+        description: "Year and month number in MMYYYY format"
+      - name: audit_date
+        description: "Audit Datetime of record processed and loaded into table"
+
+  - name: dim_battalions
+    description: "Dimension table with battalions data"
+    columns:
+      - name: battalion_pk
+        description: "Unique hash key of each battalion"
+        tests:
+          - not_null
+          - unique
+      - name: battalion_number
+        description: "Number of the battalion"
+      - name: battalion_description
+        description: "Short battalion description"
+      - name: audit_date
+        description: "Audit Datetime of record processed and loaded into table"
+
+  - name: dim_cities
+    description: "Dimension table with cities data"
+    columns:
+      - name: city_pk
+        description: "Unique hash key of each city"
+        tests:
+          - not_null
+          - unique
+      - name: city_name
+        description: "Name of the city"
+      - name: audit_date
+        description: "Audit Datetime of record processed and loaded into table"
+
+  - name: dim_districts
+    description: "Dimension table with districts data"
+    columns:
+      - name: district_pk
+        description: "Unique hash key of each district"
+        tests:
+          - not_null
+          - unique
+      - name: district_name
+        description: "Name of the district"
+      - name: audit_date
+        description: "Audit Datetime of record processed and loaded into table"
+
+  - name: ft_incidents
+    description: "Fact table with information about fire incidents in San Francisco"
+    tests:
+      - unique:
+          column_name: "(incident_number || '-' || exposure_number)"
+    columns:
+      - name: incident_number
+        description: "A unique 8-digit number assigned by DEM to this Fire incident"
+        tests:
+          - not_null
+      - name: exposure_number
+        description: "A sequence number indicates the order in which this address was involved in this fire incident. This number is usually 0. If the fire spreads to other buildings, then this number will be incremented by one for each new exposure."
+        tests:
+          - not_null
+      - name: date_fk
+        description: Foreign key to dim_time
+        tests:
+          - not_null
+          - relationships:
+                to: ref('dim_time')
+                field: date_pk
+      - name: city_fk
+        description: Foreign key to dim_cities
+        tests:
+          - not_null
+          - relationships:
+                to: ref('dim_cities')
+                field: city_pk
+      - name: district_fk
+        description: Foreign key to dim_districts
+        tests:
+          - not_null
+          - relationships:
+                to: ref('dim_districts')
+                field: district_pk
+      - name: battalion_fk
+        description: Foreign key to dim_battalions
+        tests:
+          - not_null
+          - relationships:
+                to: ref('dim_battalions')
+                field: battalion_pk
+      - name: call_number
+        description: "A unique 9-digit number assigned by the 911 Dispatch Center (DEM) to this call. These number are used for both Police and Fire calls."
+      - name: zip_code
+        description: "Zipcode of incident"
+      - name: station_area
+        description: "Fire Station First Response Area associated with the address of the incident"
+      - name: suppression_units
+        description: "Total number of suppression units assigned to this incident"
+      - name: suppression_personnel
+        description: "Total number of suppression personnel assigned to this incident"
+      - name: battalion
+        description: "Emergency Response District (There are 9 Fire Emergency Response Districts)"
+      - name: ems_units
+        description: "Total number of EMS units assigned to this incident"
+      - name: ems_personnel
+        description: "Total number of EMS personnel assigned to this incident"
+      - name: other_units
+        description: "Total number of other units assigned to this incident"
+      - name: other_personnel
+        description: "Total number of other personnel assigned to this incident"
+      - name: first_unit_on_scene
+        description: "Unit identifier for the first unit to arrive to this incident."
+      - name: estimated_property_loss
+        description: "Estimated monetary loss of property due to damage from incident (structure)"
+      - name: estimated_contents_loss
+        description: "Estimated monetary loss of contents due to damage from incident."
+      - name: fire_fatalities
+        description: "Total number of firefighter lives lost at the incident"
+      - name: fire_injuries
+        description: "Total number of firefighter injuries due to this incident"
+      - name: civilian_fatalities
+        description: "Total number of civilian lives lost at the incident"
+      - name: civilian_injuries
+        description: "Total number of civilian injuries due to this incident"
+      - name: number_of_alarms
+        description: "Number of alarms associated with the incident. This is a number between 1 and 5."
+      - name: primary_situation_code
+        description: "Code of the incident type that best describes the situation at the scene."
+      - name: primary_situation_description
+        description: "Description of the incident type that best describes the situation at the scene."
+      - name: property_use_code
+        description: "Code of the property use"
+      - name: property_use_description
+        description: "Description of the property use. For example: Residential, Commercial, etc."
+      - name: supervisor_district
+        description: "Supervisor District associated with this address"
+      - name: point_coordinates
+        description: "Coordinates where fire happened"
+      - name: last_update
+        description: "Date of record loaded from origin"
+      - name: audit_date
+        description: "Audit Datetime of record processed and loaded into table"

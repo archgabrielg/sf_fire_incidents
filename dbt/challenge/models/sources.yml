@@ -1,0 +1,9 @@
+version: 1.0
+
+sources:
+  - name: API
+    database: "{{ env_var('DATABASE') }}"
+    schema: data_bronze
+    tables:
+      - name: fire_incidents
+        loaded_at_field: audit_date

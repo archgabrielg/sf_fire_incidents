@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: db-postgres:latest
+    restart: always
+    hostname: postgresdb
+    volumes:
+      - db-challenge:/var/lib/postgresql/data
+    ports:
+      - $PORT:5432
+    environment:
+      POSTGRES_PASSWORD: $PASSWORD
+      POSTGRES_USER: $USER
+      POSTGRES_DB: $DATABASE
+    networks:
+       - network-challenge
+
+  api:
+    image: api-extract:latest
+    restart: always
+    links:
+      - postgresdb
+    ports:
+      - 5000:5000
+    environment:
+      POSTGRES_PASSWORD: $PASSWORD
+      POSTGRES_USER: $USER
+      POSTGRES_DB: $DATABASE
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgresdb
+    networks:
+       - network-challenge
+
+volumes:
+  db-challenge:
+
+networks:
+  network-challenge:
